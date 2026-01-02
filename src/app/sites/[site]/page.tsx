@@ -3,6 +3,7 @@ import { getTenant } from "@/tenants/config";
 import ParallaxLayout from "@/components/ClientAParallax";
 import { Tenant } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
 
 const StandardLayout = ({ tenant }: { tenant: Tenant }) => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -27,7 +28,16 @@ interface PageProps {
 export default async function TenantPage({ params }: PageProps) {
   const { site } = await params;
   const domain = decodeURIComponent(site);
+
+ console.log("----------------------------------------------");
+  console.log("🔍 DEBUG PAGE RENDER:");
+  console.log("1. Raw Site Param:", site);
+  console.log("2. Decoded Domain:", domain);
+  
   const tenant = getTenant(domain);
+  
+  console.log("3. Tenant Found?", tenant ? "✅ YES" : "❌ NO");
+  console.log("----------------------------------------------");
 
   if (!tenant) notFound();
 
