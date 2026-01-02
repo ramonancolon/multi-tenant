@@ -1,7 +1,9 @@
 import { headers } from "next/headers";
 
-export default function DebugPage() {
-  const headersList = headers();
+export default async function DebugPage() {
+  // 1. Await the headers (Required in Next.js 15+)
+  const headersList = await headers();
+  
   const host = headersList.get("host");
   const xForwardedHost = headersList.get("x-forwarded-host");
 
@@ -17,8 +19,7 @@ export default function DebugPage() {
       </div>
 
       <p style={{ marginTop: 20 }}>
-        <strong>Fix:</strong> Ensure your middleware matcher includes this path 
-        and that your config.ts has a key for the "Host" value shown above.
+        <strong>Fix:</strong> Add the value shown in "Host Header" to your <code>config.ts</code> file.
       </p>
     </div>
   );
