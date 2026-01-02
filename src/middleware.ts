@@ -7,13 +7,16 @@ export const config = {
 
 export default function middleware(request: NextRequest) {
   // Check 'x-forwarded-host' because DreamHost handles the initial request
-  let hostname = request.headers.get("x-forwarded-host") || request.headers.get("host");
-  hostname = hostname || "localhost";
+  //  let hostname = request.headers.get("x-forwarded-host") || request.headers.get("host");
+  //   hostname = hostname || "localhost";
 
   // Cleanup
-  if (hostname.includes(":")) hostname = hostname.split(":")[0];
-  if (hostname.startsWith("www.")) hostname = hostname.replace("www.", "");
+  // if (hostname.includes(":")) hostname = hostname.split(":")[0];
+  // if (hostname.startsWith("www.")) hostname = hostname.replace("www.", "");
 
+  // Temp fix
+  const hostname = "ramonacolon.dev";
+  
   const newPath = `/sites/${hostname}${request.nextUrl.pathname}`;
   return NextResponse.rewrite(new URL(newPath, request.url));
 }
