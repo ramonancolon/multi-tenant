@@ -8,6 +8,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**', // Be careful with this in high-security apps
       },
+      {
+        protocol: 'https',
+        hostname: 'ramoncolon.design',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ramonacolon.dev',
+      },
     ],
   },
   // If you need to map domains to internal paths, you can use headers
