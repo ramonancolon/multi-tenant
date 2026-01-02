@@ -1,11 +1,11 @@
 import { Tenant } from "@/lib/types";
 
 export const tenants: Record<string, Tenant> = {
-  "client-a.local": {
-    id: "tenant-1",
+"ramonacolon.dev": { 
+    id: "ramona",
     name: "Ramona Colon",
-    domain: "client-a.local",
-    layout: "parallax", 
+    domain: "ramonacolon.dev",
+    layout: "parallax",
     theme: {
       primaryColor: "#861657", 
       secondaryColor: "#111827", 
