@@ -1,26 +1,48 @@
-import { headers } from "next/headers";
+import { notFound } from "next/navigation";
+import { getTenant } from "@/tenants/config";
+import ParallaxLayout from "@/components/ClientAParallax";
+import { Tenant } from "@/lib/types";
 
-export default async function DebugPage() {
-  // 1. Await the headers (Required in Next.js 15+)
-  const headersList = await headers();
-  
-  const host = headersList.get("host");
-  const xForwardedHost = headersList.get("x-forwarded-host");
+// 1. Force dynamic rendering so it updates instantly
+export const dynamic = "force-dynamic";
 
-  return (
-    <div style={{ padding: 40, fontFamily: "sans-serif" }}>
-      <h1>⚠️ Middleware Bypass Detected</h1>
-      <p>The request hit the root page instead of being rewritten to a tenant.</p>
-      
-      <div style={{ background: "#f0f0f0", padding: 20, borderRadius: 8, marginTop: 20 }}>
-        <h3>Debug Info:</h3>
-        <p><strong>Host Header:</strong> {host}</p>
-        <p><strong>X-Forwarded-Host:</strong> {xForwardedHost || "Missing"}</p>
-      </div>
-
-      <p style={{ marginTop: 20 }}>
-        <strong>Fix:</strong> Add the value shown in "Host Header" to your <code>config.ts</code> file.
-      </p>
+// 2. Simple Layout Wrapper
+const StandardLayout = ({ tenant }: { tenant: Tenant }) => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="max-w-2xl p-10 bg-white shadow-xl rounded-xl">
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">{tenant.name}</h1>
+      <p className="text-lg text-gray-600">{tenant.content.description}</p>
     </div>
-  );
+  </div>
+);
+
+// Layout Registry
+const LayoutRegistry = {
+  parallax: ParallaxLayout,
+  standard: StandardLayout,
+  minimal: StandardLayout,
+};
+
+export default function RootHomePage() {
+  // 3. HARDCODE: We are forcibly loading Ramona's data
+  // This bypasses all routing logic. If this file runs, your site LOADS.
+  const domain = "ramonacolon.dev";
+  const tenant = getTenant(domain);
+
+  console.log("------------------------------------------------");
+  console.log("🚀 ROOT PAGE LOADING FOR:", domain);
+  console.log("Found Tenant:", tenant ? "YES" : "NO");
+  console.log("------------------------------------------------");
+
+  if (!tenant) {
+    return (
+        <div>
+            <h1>Error: Configuration Missing</h1>
+            <p>Could not find data for {domain} in config.ts</p>
+        </div>
+    );
+  }
+
+  const LayoutComponent = LayoutRegistry[tenant.layout] || StandardLayout;
+  return <LayoutComponent tenant={tenant} />;
 }
