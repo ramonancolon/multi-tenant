@@ -15,8 +15,12 @@ export default function middleware(request: NextRequest) {
   // if (hostname.startsWith("www.")) hostname = hostname.replace("www.", "");
 
   // Temp fix
-  const hostname = "ramonacolon.dev";
+const hostname = "ramonacolon.dev"; 
+
+
+  const url = request.nextUrl;
   
-  const newPath = `/sites/${hostname}${request.nextUrl.pathname}`;
+  const newPath = `/sites/${hostname}${url.pathname}`;
+  
   return NextResponse.rewrite(new URL(newPath, request.url));
 }
