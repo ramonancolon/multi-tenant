@@ -1,8 +1,133 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Tenant } from "@/lib/types";
 
+// --- NEW COMPONENT: Design Gallery (Tailwind Version) ---
+const DesignGallery = ({ index }: { index: number }) => {
+  const [selectedImage, setSelectedImage] = useState<any | null>(null);
 
-// 1. HELPER: Social Icon Switcher (
+  // MOCK DATA - Replace with your actual design portfolio items
+  const designs = [
+    {
+      id: 1,
+      title: 'Website Design',
+      category: 'UI / UX',
+      image: 'https://ramoncolon.design/wp-content/uploads/2017/10/ktlo-homepage-v2.png', // 
+      description: 'High-fidelity mockup focused on reducing cart abandonment.'
+    },
+    {
+      id: 2,
+      title: 'Website Design',
+      category: 'UI / UX',
+      image: 'https://ramoncolon.design/wp-content/uploads/2017/10/WPWX2-homepage-v4-opt.jpg', // 
+      description: 'Responsive email template designed for high click-through rates.'
+    },
+    {
+      id: 3,
+      title: 'Graphic Design',
+      category: 'Vector Art',
+      image: 'https://ramoncolon.design/wp-content/uploads/2017/10/funniest-couple-graphic-2-V2-red-thumb-opt.jpg', // 
+      description: 'Custom SVG icon set for a SaaS dashboard.'
+    },
+    {
+      id: 4,
+      title: 'Graphic Design',
+      category: 'Vector Art',
+      image: 'https://ramoncolon.design/wp-content/uploads/2017/10/fathers-day-contest-final.jpg', // 
+      description: 'Custom SVG icon set for a SaaS dashboard.'
+    },    
+  ];
+
+  // Close modal on 'Esc'
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedImage(null);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+
+  return (
+    <div 
+      className="relative w-full py-24 bg-white text-gray-900 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]"
+      style={{ zIndex: index + 11 }} // Ensures it sits above previous sections
+    >
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="mb-12 border-b-2 border-gray-100 pb-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-3">
+            Design & Prototyping
+          </h2>
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+            Bridging the gap between static visuals and interactive code.
+          </p>
+        </div>
+
+        {/* Masonry-style Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {designs.map((project) => (
+            <div 
+              key={project.id}
+              onClick={() => setSelectedImage(project)}
+              className="group relative cursor-pointer overflow-hidden rounded-xl bg-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            >
+              {/* Image */}
+              <div className="aspect-[4/3] w-full overflow-hidden">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span className="text-xs font-bold text-yellow-400 uppercase tracking-wider mb-1">
+                  {project.category}
+                </span>
+                <h3 className="text-white text-xl font-bold">{project.title}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div 
+            className="relative max-w-5xl w-full max-h-screen flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              className="absolute -top-12 right-0 text-white/70 hover:text-white text-4xl leading-none"
+              onClick={() => setSelectedImage(null)}
+            >
+              &times;
+            </button>
+            <img 
+              src={selectedImage.image} 
+              alt={selectedImage.title}
+              className="max-h-[80vh] w-auto rounded-lg shadow-2xl object-contain"
+            />
+            <div className="mt-4 text-center">
+              <h3 className="text-2xl font-bold text-white">{selectedImage.title}</h3>
+              <p className="text-gray-300 mt-2">{selectedImage.description}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+// 1. HELPER: Social Icon Switcher
 const SocialIcon = ({ platform }: { platform: string }) => {
   switch (platform.toLowerCase()) {
     case "linkedin":
@@ -18,7 +143,6 @@ const SocialIcon = ({ platform }: { platform: string }) => {
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
       );
     default:
-      // Generic Link Icon
       return (
          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
       );
@@ -47,7 +171,6 @@ const ParallaxSection = ({
       zIndex: index + 10, 
     }}
   >
-    {/* Background Image Layer */}
     {image && (
       <>
         <div 
@@ -58,23 +181,19 @@ const ParallaxSection = ({
       </>
     )}
 
-    {/* Text Content */}
     <div className="relative z-10 max-w-4xl text-center px-4">
       <h2 className="text-[10vh] md:text-[12vh] leading-none font-black text-white tracking-tighter opacity-90 drop-shadow-lg">
         {title}
       </h2>
-      
-      {}
       <p className="mt-4 text-xl md:text-3xl text-white/90 font-medium uppercase tracking-widest drop-shadow-md whitespace-pre-line">
         {subtitle}
       </p>
-      
     </div>
   </div>
 );
 
 
-// 3. HELPER: Portfolio Grid Section
+// 3. HELPER: Portfolio Grid Section (Websites)
 const PortfolioGrid = ({ 
   data, 
   color,
@@ -88,11 +207,10 @@ const PortfolioGrid = ({
     className="relative top-0 min-h-screen w-full flex flex-col items-center py-20 bg-gray-50 text-gray-900 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]"
     style={{ 
       zIndex: index + 10,
-      backgroundColor: "#f3f4f6" // Light gray background for contrast
+      backgroundColor: "#f3f4f6"
     }}
   >
     <div className="max-w-7xl mx-auto px-6 w-full">
-      {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tight uppercase text-gray-900">
           {data.title}
@@ -102,7 +220,6 @@ const PortfolioGrid = ({
         </p>
       </div>
 
-      {/* Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
         {data.items.map((item, i) => (
           <a 
@@ -112,7 +229,6 @@ const PortfolioGrid = ({
             rel="noopener noreferrer"
             className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full"
           >
-            {/* Image Container */}
             <div className="relative h-64 overflow-hidden">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
@@ -121,7 +237,6 @@ const PortfolioGrid = ({
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
             </div>
 
-            {/* Content */}
             <div className="p-8 flex-1 flex flex-col">
               <div className="flex flex-wrap gap-2 mb-4">
                 {item.tags?.map(tag => (
@@ -153,13 +268,15 @@ const PortfolioGrid = ({
 
 
 // 4. MAIN COMPONENT 
-
 export default function ParallaxLayout({ tenant }: { tenant: Tenant }) {
   const cardColors = [
     tenant.theme.primaryColor, 
     "#1e293b",                 
     "#f59e0b",                
   ];
+
+  // Calculate index for the designs section
+  const baseIndex = (tenant.content.sections?.length || 0);
 
   return (
     <div className="relative bg-black min-h-screen font-sans">
@@ -185,17 +302,20 @@ export default function ParallaxLayout({ tenant }: { tenant: Tenant }) {
         />
       ))}
 
-      {/* Portfolio Grid Section */}
+      {/* Portfolio Grid Section (Websites) */}
       {tenant.portfolio && (
         <PortfolioGrid 
           data={tenant.portfolio} 
           color="#f3f4f6"
-          index={(tenant.content.sections?.length || 0) + 1} 
+          index={baseIndex + 1} 
         />
       )}
 
+      {/* --- NEW SECTION: Design Gallery --- */}
+      <DesignGallery index={baseIndex + 2} />
+
       {/* Footer */}
-      <footer className="relative z-[100] bg-white text-black py-24 text-center relative top-0 min-h-[50vh] flex flex-col items-center justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+      <footer className="relative z-[100] bg-white text-black py-24 text-center min-h-[50vh] flex flex-col items-center justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <h2 className="text-4xl font-bold mb-8">Contact Me</h2>
         
         <div className="flex gap-4 flex-wrap justify-center px-4">
