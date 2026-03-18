@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Tenant } from "@/lib/types";
-import DataTable from './dataTable';
-import { mockUsers } from '../mock-data';
 
 // --- NEW COMPONENT: Design Gallery (Tailwind Version) ---
 const DesignGallery = ({ index }: { index: number }) => {
@@ -344,7 +342,6 @@ export default function ParallaxLayout({ tenant }: { tenant: Tenant }) {
            &copy; {new Date().getFullYear()} {tenant.name}
         </div>
       </footer>
-      <DataTable data={mockUsers} itemsPerPage={10} />
     </div>
   );
 }
