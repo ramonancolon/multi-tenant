@@ -14,28 +14,28 @@ const DesignGallery = ({ index }: { index: number }) => {
       title: 'Website Design',
       category: 'UI / UX',
       image: 'https://ramoncolon.design/wp-content/uploads/2017/10/ktlo-homepage-v2.png', // 
-      description: 'High-fidelity mockup focused on reducing cart abandonment.'
+      description: 'High-fidelity mockup focused on retention and monetization.'
     },
     {
       id: 2,
       title: 'Website Design',
       category: 'UI / UX',
       image: 'https://ramoncolon.design/wp-content/uploads/2017/10/WPWX2-homepage-v4-opt.jpg', // 
-      description: 'Responsive email template designed for high click-through rates.'
+      description: 'High-fidelity mockup focused on retention, monetization, and interactivity.'
     },
     {
       id: 3,
       title: 'Graphic Design',
       category: 'Vector Art',
       image: 'https://ramoncolon.design/wp-content/uploads/2017/10/funniest-couple-graphic-2-V2-red-thumb-opt.jpg', // 
-      description: 'Custom SVG icon set for a SaaS dashboard.'
+      description: 'Banner for client contest.'
     },
     {
       id: 4,
       title: 'Graphic Design',
       category: 'Vector Art',
       image: 'https://ramoncolon.design/wp-content/uploads/2017/10/fathers-day-contest-final.jpg', // 
-      description: 'Custom SVG icon set for a SaaS dashboard.'
+      description: 'Banner for client promotion.'
     },    
   ];
 
@@ -314,6 +314,7 @@ export default function ParallaxLayout({ tenant }: { tenant: Tenant }) {
       {/* --- NEW SECTION: Design Gallery --- */}
       <DesignGallery index={baseIndex + 2} />
 
+
       {/* Footer */}
       <footer className="relative z-[100] bg-white text-black py-24 text-center min-h-[50vh] flex flex-col items-center justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
         <h2 className="text-4xl font-bold mb-8">Contact Me</h2>
@@ -341,7 +342,6 @@ export default function ParallaxLayout({ tenant }: { tenant: Tenant }) {
            &copy; {new Date().getFullYear()} {tenant.name}
         </div>
       </footer>
-
     </div>
   );
 }
