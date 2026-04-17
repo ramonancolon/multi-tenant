@@ -1,4 +1,4 @@
-export type LayoutType = "standard" | "parallax" | "minimal";
+export type LayoutType = "standard" | "parallax" | "minimal" | "wiki-app";
 
 export interface Tenant {
   id: string;
@@ -45,4 +45,11 @@ export interface Tenant {
       tags?: string[];
     }[];
   };
+}
+
+export interface user {
+  id: number;
+  name: string;
+  username: string;
+  email: string ;
 }
