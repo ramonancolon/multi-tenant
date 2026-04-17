@@ -113,27 +113,27 @@ portfolio: {
 },
   },
   
-  "client-b.local": {
-    id: "tenant-2",
-    name: "Banana Bakeries",
-    domain: "client-b.local",
-    layout: "standard",
+"mywebstaging.online": { 
+    id: "tenant-wiki",
+    name: "AI Wiki Engine",
+    domain: "mywebstaging.online", 
+    layout: "wiki-app", // 
     theme: {
-      primaryColor: "#eab308", 
-      secondaryColor: "#ffffff",
-      font: "serif",
+      primaryColor: "#000000", 
+      secondaryColor: "#ffffff", 
+      font: "sans-serif",
     },
-    features: { showBlog: false, showContactForm: true },
+    features: { showBlog: false, showContactForm: false },
     content: {
-      headline: "Fresh Bread Daily",
-      description: "The best banana bread in town."
+      headline: "Multi-Tenant Wiki Generator",
+      description: "Enter a prompt to generate a new markdown space."
     }
   },
     // Fallback
   "localhost": {
-    id: "dev-tenant",
-    name: "Dev Environment",
-    domain: "localhost",
+    id: "ramona",
+    name: "Ramona Colon",
+    domain: "ramonacolon.dev",
     layout: "parallax",
     theme: {
       primaryColor: "#861657", 
